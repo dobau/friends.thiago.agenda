@@ -116,7 +116,7 @@ void alterar(void) {
 					printf("CONTATO JA EXISTENTE!");
 					getchar();
                 } else {
-					strcpy(agenda[total].nome, nomeTmp);
+					strcpy(agenda[index].nome, nomeTmp);
                 }
                  
                  break;
