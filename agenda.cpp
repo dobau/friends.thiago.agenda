@@ -28,63 +28,63 @@ bool jahExiste(char *nome) {
 }
 
 void inclusao(void) {
-	getchar();
-	char nomeTmp[50];
-	printf("Nome: ");
-	gets(nomeTmp);
-	for (int j=0; j < strlen(nomeTmp); j++) {
-		nomeTmp[j] = toupper(nomeTmp[j]);
-	}
+    getchar();
+    char nomeTmp[50];
+    printf("Nome: ");
+    gets(nomeTmp);
+    for (int j=0; j < strlen(nomeTmp); j++) {
+        nomeTmp[j] = toupper(nomeTmp[j]);
+    }
 
-	if (jahExiste(nomeTmp)) {
-		printf("CONTATO JA EXISTENTE!");
-		getchar();
-	} else {
-		strcpy(agenda[total].nome, nomeTmp);
-		printf("Telefone: ");
-		gets(agenda[total].fone);
-		total++;
-	}
+    if (jahExiste(nomeTmp)) {
+        printf("CONTATO JA EXISTENTE!");
+        getchar();
+    } else {
+        strcpy(agenda[total].nome, nomeTmp);
+        printf("Telefone: ");
+        gets(agenda[total].fone);
+        total++;
+    }
 }
 
-void ordenar(void) {
-	T_agenda temp;
-	for (int i=0; i < total; i++) {
-		for (int j= (i + 1); j < total; j++){
-			if (strcmp(agenda[i].nome, agenda[j].nome) > 0) {
-				temp = agenda[j];
-				agenda[j] = agenda[i];
-				agenda[i] = temp;
-			}
-		}
-	}
-}
+    void ordenar(void) {
+    T_agenda temp;
+    for (int i=0; i < total; i++) {
+        for (int j= (i + 1); j < total; j++){
+            if (strcmp(agenda[i].nome, agenda[j].nome) > 0) {
+                temp = agenda[j];
+                agenda[j] = agenda[i];
+                agenda[i] = temp;
+            }
+        }
+    }
+    }
 
 /**
  * Retorna a posição do contato na agenda, caso nada seja encontrado retorna -1;
  */
 int pesquisar(void) {
-	char pesq[20];
-	getchar();
-	system("cls");
-	printf("Entre com o nome que deseja pesquisar: ");
-	gets(pesq);
-	for(int j=0;j<strlen(pesq);j++){
-		pesq[j]=toupper(pesq[j]);
-	}
+    char pesq[20];
+    getchar();
+    system("cls");
+    printf("Entre com o nome que deseja pesquisar: ");
+    gets(pesq);
+    for(int j=0;j<strlen(pesq);j++){
+        pesq[j]=toupper(pesq[j]);
+    }
 
-	for (int i= 0; i < total; i++) {
-		if (strcmp(agenda[i].nome, pesq) == 0) {
-			printf("Fone: %s", agenda[i].fone);
-			getch();
-			return i;
-		}
-	}
+    for (int i= 0; i < total; i++) {
+        if (strcmp(agenda[i].nome, pesq) == 0) {
+            printf("Fone: %s", agenda[i].fone);
+            getch();
+            return i;
+        }
+    }
 
-	// Caso não tenha encontrado nenhum registro mostra a mensagem e retorna -1
-	printf("\nNOME NAO CADASTRADO!");
-	getch();
-	return -1;
+    // Caso não tenha encontrado nenhum registro mostra a mensagem e retorna -1
+    printf("\nNOME NAO CADASTRADO!");
+    getch();
+    return -1;
 }
 
 
@@ -100,7 +100,7 @@ void alterar(void) {
         printf("Escolha o que deseja alterar:\n");
         printf("(1) Nome\n");
         printf("(2) Telefone\n");
-        printf("(0) Voltar\n");
+        printf("(0) Cancelar\n");
         scanf("%c", &op);
         switch(op) {
             case '1':
@@ -109,22 +109,22 @@ void alterar(void) {
                 printf("Nome: ");
                 gets(nomeTmp);
                 for (int j=0; j < strlen(nomeTmp); j++) {
-					nomeTmp[j] = toupper(nomeTmp[j]);
+                    nomeTmp[j] = toupper(nomeTmp[j]);
                 }
                  
                 if (jahExiste(nomeTmp)) {
-					printf("CONTATO JA EXISTENTE!");
-					getchar();
+                    printf("CONTATO JA EXISTENTE!");
+                    getchar();
                 } else {
-					strcpy(agenda[index].nome, nomeTmp);
+                    strcpy(agenda[total].nome, nomeTmp);
                 }
                  
                  break;
             case '2':
-				getchar();
-				printf("Telefone: ");
-				gets(agenda[index].fone);
-				break;
+                getchar();
+                printf("Telefone: ");
+                gets(agenda[index].fone);
+                break;
         }
     } while (op != '0');
 }
@@ -133,8 +133,8 @@ void alterar(void) {
  * Lista todos os contatos da agenda.
  */
 void listarTodos(void) {
-	for (int i = 0; i < total; i++) {
-		printf("%d)Nome:%s Fone:%s\n", i+1 , agenda[i].nome, agenda[i].fone);
+    for (int i = 0; i < total; i++) {
+        printf("%d)Nome:%s Fone:%s\n", i+1 , agenda[i].nome, agenda[i].fone);
     }
     getch();
 }
@@ -142,25 +142,25 @@ void listarTodos(void) {
 void excluir() {
     int index = pesquisar();
     if (index == -1) {
-		return;
+        return;
     } else {
         char op;       
         do {
             system("cls");
             printf("Você tem certeza que deseja excluir (%s) ?\n", agenda[index].nome);
             printf("(1) Sim\n");
-            printf("(2) Nao\n");
+            printf("(2) Não\n");
             scanf("%c", &op);
             switch(op) {
                 case '1':
-					for (int i = index; i < total;i++) {
-						agenda[i] = agenda[i+1];
-					}
+                    for (int i = index; i < total;i++) {
+                        agenda[i] = agenda[i+1];
+                    }
 
-					total--;
-					break;
+                    total--;
+                    break;
             }
-        } while (op != '2' && op != '1');
+        } while (op != '2' && op != 1);
     }
 }
 
