@@ -149,7 +149,7 @@ void excluir() {
             system("cls");
             printf("Você tem certeza que deseja excluir (%s) ?\n", agenda[index].nome);
             printf("(1) Sim\n");
-            printf("(2) Não\n");
+            printf("(2) Nao\n");
             scanf("%c", &op);
             switch(op) {
                 case '1':
@@ -160,7 +160,7 @@ void excluir() {
 					total--;
 					break;
             }
-        } while (op != '2' && op != 1);
+        } while (op != '2' && op != '1');
     }
 }
 
@@ -207,3 +207,4 @@ int main(int argc, char* argv[]) {
     return 0;
 }
 //---------------------------------------------------------------------------
+
