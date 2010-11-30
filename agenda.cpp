@@ -100,7 +100,7 @@ void alterar(void) {
         printf("Escolha o que deseja alterar:\n");
         printf("(1) Nome\n");
         printf("(2) Telefone\n");
-        printf("(0) Cancelar\n");
+        printf("(0) Voltar\n");
         scanf("%c", &op);
         switch(op) {
             case '1':
