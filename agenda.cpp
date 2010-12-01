@@ -20,6 +20,10 @@ T_agenda agenda[50];
 
 int total = 0;
 
+/**
+ * Verifica se o contato jah existe na agenda retornando true, caso contrario
+ * retorna false.
+ */
 bool jahExiste(char *nome) {
     for (int i= 0; i < total; i++) {
         if (strcmp(agenda[i].nome, nome) == 0) {
@@ -28,6 +32,22 @@ bool jahExiste(char *nome) {
     }
 
     return false;
+}
+
+/**
+ * Ordena os contatos da lista de contatos
+ */
+void ordenar(void) {
+    T_agenda temp;
+    for (int i=0; i < total; i++) {
+        for (int j= (i + 1); j < total; j++){
+            if (strcmp(agenda[i].nome, agenda[j].nome) > 0) {
+                temp = agenda[j];
+                agenda[j] = agenda[i];
+                agenda[i] = temp;
+            }
+        }
+    }
 }
 
 /**
@@ -72,22 +92,8 @@ void inclusao(void) {
         gets(agenda[total].dataNascimento);
 
         total++;
-    }
-}
-
-/**
- * Ordena os contatos da lista de contatos
- */
-void ordenar(void) {
-    T_agenda temp;
-    for (int i=0; i < total; i++) {
-        for (int j= (i + 1); j < total; j++){
-            if (strcmp(agenda[i].nome, agenda[j].nome) > 0) {
-                temp = agenda[j];
-                agenda[j] = agenda[i];
-                agenda[i] = temp;
-            }
-        }
+        
+        ordenar();
     }
 }
 
@@ -106,7 +112,7 @@ int pesquisar(void) {
 
     for (int i= 0; i < total; i++) {
         if (strcmp(agenda[i].nome, pesq) == 0) {
-            printf("Fone: %s", agenda[i].fone);
+            printf("Telefone: %s", agenda[i].fone);
             getch();
             return i;
         }
@@ -131,7 +137,7 @@ void alterar(void) {
         printf("Escolha o que deseja alterar:\n");
         printf("(1) Nome\n");
         printf("(2) Telefone\n");
-        printf("(0) Cancelar\n");
+        printf("(0) Voltar\n");
         scanf("%c", &op);
         switch(op) {
             case '1':
@@ -149,8 +155,10 @@ void alterar(void) {
                 } else {
                     strcpy(agenda[total].nome, nomeTmp);
                 }
+    
+                ordenar();
                  
-                 break;
+                break;
             case '2':
                 getchar();
                 printf("Telefone: ");
@@ -164,10 +172,20 @@ void alterar(void) {
  * Lista todos os contatos da agenda.
  */
 void listarTodos(void) {
+    system("cls");
+    getchar();
+
+    printf("Lista de contatos:\n");
+    printf("--\n");   
     for (int i = 0; i < total; i++) {
-        printf("%d)Nome:%s Fone:%s\n", i+1 , agenda[i].nome, agenda[i].fone);
+        printf("%d)Nome:%s\n", i+1 , agenda[i].nome);
+        printf("  Fone:%s\n", agenda[i].fone);
+        printf("  Endereco:%s\n", agenda[i].endereco);
+        printf("  E-Mail:%s\n", agenda[i].email);
+        printf("  Data de Nascimento:%s\n", agenda[i].dataNascimento);
     }
-    getch();
+
+    getchar();
 }
 
 void excluir() {
@@ -204,10 +222,9 @@ void menu(void) {
         system("cls");
         printf("(1) Incluir\n");
         printf("(2) Consultar todos\n");
-        printf("(3) Ordenar por nome\n");
-        printf("(4) Pesquisar por nome\n");
-        printf("(6) Alterar\n");
-        printf("(7) Excluir\n");
+        printf("(3) Pesquisar por nome\n");
+        printf("(4) Alterar\n");
+        printf("(5) Excluir\n");
         printf("(0) Sair\n");
         printf("Digite a opcao desejada: ");
         scanf("%c", &op);
@@ -219,15 +236,12 @@ void menu(void) {
                 listarTodos();
                 break;
             case '3':
-                ordenar();
-                break;
-            case '4':
                 pesquisar();
                 break;
-            case '6':
+            case '4':
                 alterar();
                 break;
-            case '7':
+            case '5':
                 excluir();
                 break;
         }
