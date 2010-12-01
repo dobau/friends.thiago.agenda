@@ -256,10 +256,9 @@ void alterar(void) {
                     getchar();
                 } else {
                     strcpy(agenda[index].nome, nomeTmp);
+                    ordenar();
+                    index = getIndex(nomeTmp);
                 }
-    
-                ordenar();
-                index = getIndex(nomeTmp);
                  
                 break;
             case '2':
