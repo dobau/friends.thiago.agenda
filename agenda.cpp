@@ -59,6 +59,16 @@ void ordenar(void) {
     }
 }
 
+int getIndex(char pesq[]) {
+    for (int i= 0; i < total; i++) {
+        if (strcmp(agenda[i].nome, pesq) == 0) {
+            return i;
+        }
+    }
+    
+    return -1;
+}
+
 /**
  * Mostra as informações do contato que está no index
  */
@@ -210,15 +220,17 @@ void pesquisar() {
 /**
  * Altera as informações do contato da agenda, de acordo com o campo escolhido
  */
-void alterar(void) {
+void alterar(void) {    
     int index = pesquisarPorNome();
     if (index == -1) {
+        printf("\nNOME NAO CADASTRADO!");
+        getch();
        return;
     }
 
     char op;
     do {
-        system("cls");      
+        system("cls");
         mostrarInformacoes(index, "1");
         printf("\n");
         printf("(1) Nome\n");
@@ -243,10 +255,11 @@ void alterar(void) {
                     printf("CONTATO JA EXISTENTE!");
                     getchar();
                 } else {
-                    strcpy(agenda[total].nome, nomeTmp);
+                    strcpy(agenda[index].nome, nomeTmp);
                 }
     
                 ordenar();
+                index = getIndex(nomeTmp);
                  
                 break;
             case '2':
@@ -297,6 +310,8 @@ void listarTodos(void) {
 void excluir() {
     int index = pesquisarPorNome();
     if (index == -1) {
+        printf("\nNOME NAO CADASTRADO!");
+        getch();
         return;
     } else {
         char op;       
