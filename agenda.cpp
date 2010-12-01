@@ -11,6 +11,9 @@
 typedef struct Agenda {
 	char nome[50];
 	char fone[17];
+	char endereco[250];
+	char email[80];
+	char dataNascimento[10];
 } T_agenda;
 
 T_agenda agenda[50];
@@ -27,27 +30,55 @@ bool jahExiste(char *nome) {
     return false;
 }
 
+/**
+ * Inclui um contato na agenda
+ */
 void inclusao(void) {
+    system("cls");
     getchar();
+
     char nomeTmp[50];
     printf("Nome: ");
     gets(nomeTmp);
+
     for (int j=0; j < strlen(nomeTmp); j++) {
         nomeTmp[j] = toupper(nomeTmp[j]);
     }
 
-    if (jahExiste(nomeTmp)) {
+    if (strlen(nomeTmp) == 0) {
+        printf("CONTATO INVALIDO!");
+        getchar();
+    } else if (jahExiste(nomeTmp)) {
         printf("CONTATO JA EXISTENTE!");
         getchar();
     } else {
+        // Nome
         strcpy(agenda[total].nome, nomeTmp);
+        
+        // Telefone
         printf("Telefone: ");
         gets(agenda[total].fone);
+
+        // Endereço
+        printf("Endereco: ");
+        gets(agenda[total].endereco);
+        
+        // E-mail
+        printf("E-Mail: ");
+        gets(agenda[total].email);
+        
+        // Data de Nascimento
+        printf("Data de Nascimento: ");
+        gets(agenda[total].dataNascimento);
+
         total++;
     }
 }
 
-    void ordenar(void) {
+/**
+ * Ordena os contatos da lista de contatos
+ */
+void ordenar(void) {
     T_agenda temp;
     for (int i=0; i < total; i++) {
         for (int j= (i + 1); j < total; j++){
@@ -58,7 +89,7 @@ void inclusao(void) {
             }
         }
     }
-    }
+}
 
 /**
  * Retorna a posição do contato na agenda, caso nada seja encontrado retorna -1;
@@ -164,6 +195,9 @@ void excluir() {
     }
 }
 
+/**
+ * Apresenta todas as opções da agenda, e espera o usuário digita alguma válida
+ */
 void menu(void) {
     char op;
     do {
@@ -175,6 +209,7 @@ void menu(void) {
         printf("(6) Alterar\n");
         printf("(7) Excluir\n");
         printf("(0) Sair\n");
+        printf("Digite a opcao desejada: ");
         scanf("%c", &op);
         switch(op) {
             case '1':
