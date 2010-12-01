@@ -187,7 +187,6 @@ void pesquisar() {
     char op;
     do {   
         system("cls");
-        getchar();
         printf("(1) Pesquisar por lestra\n");
         printf("(2) Pesquisar por nome\n");
         printf("(0) Voltar\n");
