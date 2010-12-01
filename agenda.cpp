@@ -120,7 +120,7 @@ void inclusao(void) {
 /**
  * Retorna a posição do contato na agenda, caso nada seja encontrado retorna -1;
  */
-int pesquisarPorNome(void) {
+int pesquisarPorNome(bool mostrar = false) {
     system("cls");
     getchar();
 
@@ -134,15 +134,19 @@ int pesquisarPorNome(void) {
 
     for (int i= 0; i < total; i++) {
         if (strcmp(agenda[i].nome, pesq) == 0) {
-            printf("Telefone: %s", agenda[i].fone);
-            getch();
+            if (mostrar) {
+                mostrarInformacoes(i, "1");
+                getch();
+            }
             return i;
         }
     }
 
-    // Caso não tenha encontrado nenhum registro mostra a mensagem e retorna -1
-    printf("\nNOME NAO CADASTRADO!");
-    getch();
+    if (mostrar) {
+        // Caso não tenha encontrado nenhum registro mostra a mensagem e retorna -1
+        printf("\nNOME NAO CADASTRADO!");
+        getch();
+    }
     return -1;
 }
 
@@ -197,7 +201,7 @@ void pesquisar() {
                 pesquisarPorLetra();                 
                 break;
             case '2':
-                pesquisarPorNome();
+                pesquisarPorNome(true);
                 break;
         }
     } while (op != '0');  
@@ -214,7 +218,9 @@ void alterar(void) {
 
     char op;
     do {
-        system("cls");
+        system("cls");      
+        mostrarInformacoes(index, "1");
+        printf("\n");
         printf("(1) Nome\n");
         printf("(2) Telefone\n");
         printf("(3) Endereco\n");
@@ -296,9 +302,9 @@ void excluir() {
         char op;       
         do {
             system("cls");
-            printf("Você tem certeza que deseja excluir (%s) ?\n", agenda[index].nome);
+            printf("Voce tem certeza que deseja excluir (%s) ?\n", agenda[index].nome);
             printf("(1) Sim\n");
-            printf("(2) Não\n");
+            printf("(2) Nao\n");
             scanf("%c", &op);
             switch(op) {
                 case '1':
@@ -309,7 +315,7 @@ void excluir() {
                     total--;
                     break;
             }
-        } while (op != '2' && op != 1);
+        } while (op != '2' && op != '1');
     }
 }
 
