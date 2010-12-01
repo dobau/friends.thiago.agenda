@@ -16,9 +16,18 @@ typedef struct Agenda {
 	char dataNascimento[10];
 } T_agenda;
 
+
+//////////////////////////////////////////////////
+//  Variáveis globais             
+//////////////////////////////////////////////////
 T_agenda agenda[50];
 
 int total = 0;
+
+
+//////////////////////////////////////////////////
+//  Funções             
+//////////////////////////////////////////////////
 
 /**
  * Verifica se o contato jah existe na agenda retornando true, caso contrario
@@ -48,6 +57,17 @@ void ordenar(void) {
             }
         }
     }
+}
+
+/**
+ * Mostra as informações do contato que está no index
+ */
+void mostrarInformacoes(int index, char extra[]) {
+    printf("%s)Nome:%s\n", extra, agenda[index].nome);
+    printf("  Fone:%s\n", agenda[index].fone);
+    printf("  Endereco:%s\n", agenda[index].endereco);
+    printf("  E-Mail:%s\n", agenda[index].email);
+    printf("  Data de Nascimento:%s\n", agenda[index].dataNascimento);
 }
 
 /**
@@ -100,12 +120,14 @@ void inclusao(void) {
 /**
  * Retorna a posição do contato na agenda, caso nada seja encontrado retorna -1;
  */
-int pesquisar(void) {
-    char pesq[20];
-    getchar();
+int pesquisarPorNome(void) {
     system("cls");
+    getchar();
+
     printf("Entre com o nome que deseja pesquisar: ");
+    char pesq[20];
     gets(pesq);
+
     for(int j=0;j<strlen(pesq);j++){
         pesq[j]=toupper(pesq[j]);
     }
@@ -124,9 +146,69 @@ int pesquisar(void) {
     return -1;
 }
 
+/**
+ * Pesquisar os contatos por letra
+ */
+int pesquisarPorLetra(void) {
+    system("cls");
+    getchar();
 
+    char letra;
+    printf("Entre com a letra que deseja pesquisar: ");
+    letra = getchar();
+    letra = toupper(letra);
+
+    bool achou = false;
+
+    int contador = 1;
+    char contadorStr[10];
+    for (int i= 0; i < total; i++) {
+        if (agenda[i].nome[0] == letra) {
+            printf("--\n");
+            itoa(contador, contadorStr, 10);
+            mostrarInformacoes(i, contadorStr);
+            achou = true;
+            contador++;
+        }
+    }
+
+    // Caso não tenha encontrado nenhum registro mostra a mensagem e retorna -1
+    if (!achou) {
+        printf("\nNENHUM CONTATO FOI ENCONTRADO!");
+    }
+    
+    getch();
+}
+
+/**
+ * Apresenta um menu com as formas de pesquisas disponíveis
+ */
+void pesquisar() {
+    char op;
+    do {   
+        system("cls");
+        getchar();
+        printf("(1) Pesquisar por lestra\n");
+        printf("(2) Pesquisar por nome\n");
+        printf("(0) Voltar\n");
+        printf("Escolha como deseja pesquisar: ");
+        scanf("%c", &op);
+        switch(op) {
+            case '1':
+                pesquisarPorLetra();                 
+                break;
+            case '2':
+                pesquisarPorNome();
+                break;
+        }
+    } while (op != '0');  
+}
+
+/**
+ * Altera as informações do contato da agenda, de acordo com o campo escolhido
+ */
 void alterar(void) {
-    int index = pesquisar();
+    int index = pesquisarPorNome();
     if (index == -1) {
        return;
     }
@@ -134,10 +216,13 @@ void alterar(void) {
     char op;
     do {
         system("cls");
-        printf("Escolha o que deseja alterar:\n");
         printf("(1) Nome\n");
         printf("(2) Telefone\n");
+        printf("(3) Endereco\n");
+        printf("(4) E-Mail\n");
+        printf("(5) Data de Nascimento\n");
         printf("(0) Voltar\n");
+        printf("Escolha o que deseja alterar: ");
         scanf("%c", &op);
         switch(op) {
             case '1':
@@ -164,6 +249,21 @@ void alterar(void) {
                 printf("Telefone: ");
                 gets(agenda[index].fone);
                 break;
+            case '3':
+                getchar();
+                printf("Endereco: ");
+                gets(agenda[index].endereco);
+                break;
+            case '4':
+                getchar();
+                printf("E-Mail: ");
+                gets(agenda[index].email);
+                break;
+            case '5':
+                getchar();
+                printf("Data de Nascimento: ");
+                gets(agenda[index].dataNascimento);
+                break;
         }
     } while (op != '0');
 }
@@ -175,21 +275,22 @@ void listarTodos(void) {
     system("cls");
     getchar();
 
-    printf("Lista de contatos:\n");
-    printf("--\n");   
+    char contadorStr[10];
+    printf("Lista de contatos:\n\n");
     for (int i = 0; i < total; i++) {
-        printf("%d)Nome:%s\n", i+1 , agenda[i].nome);
-        printf("  Fone:%s\n", agenda[i].fone);
-        printf("  Endereco:%s\n", agenda[i].endereco);
-        printf("  E-Mail:%s\n", agenda[i].email);
-        printf("  Data de Nascimento:%s\n", agenda[i].dataNascimento);
+        printf("--\n");
+        itoa(i+1, contadorStr, 10);
+        mostrarInformacoes(i, contadorStr);
     }
 
     getchar();
 }
 
+/**
+ * Exclui um contato da agenda
+ */
 void excluir() {
-    int index = pesquisar();
+    int index = pesquisarPorNome();
     if (index == -1) {
         return;
     } else {
@@ -222,7 +323,7 @@ void menu(void) {
         system("cls");
         printf("(1) Incluir\n");
         printf("(2) Consultar todos\n");
-        printf("(3) Pesquisar por nome\n");
+        printf("(3) Pesquisar\n");
         printf("(4) Alterar\n");
         printf("(5) Excluir\n");
         printf("(0) Sair\n");
@@ -247,13 +348,17 @@ void menu(void) {
         }
     } while (op != '0');
 }
+
 //---------------------------------------------------------------------------
 
-#pragma argsused
+//////////////////////////////////////////////////
+//  Main
+//////////////////////////////////////////////////
 int main(int argc, char* argv[]) {
     menu();
     system("pause");
     return 0;
 }
+
 //---------------------------------------------------------------------------
 
